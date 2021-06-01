@@ -9,7 +9,6 @@
         android:id="@+id/horizontal_rv"
         android:layout_width="match_parent"
         android:layout_height="185dp"
-        android:background="@color/colorPrimaryDark"
         android:clipToPadding="false"
         android:paddingStart="4dp"
         android:paddingLeft="4dp"

@@ -1,11 +1,15 @@
 package com.example.cinemafinder
 
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.cinemafinder.adapters.VerticalRVAdapter
 import com.example.cinemafinder.databinding.MainActivityBinding
-import com.example.cinemafinder.ui.main.MainFragment
+import com.example.cinemafinder.model.entities.Films
 import kotlinx.android.synthetic.main.main_activity.*
+import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,13 +22,27 @@ class MainActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         vertical_rv.layoutManager = layoutManager
 
-//        binding = MainActivityBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//
-//        if (savedInstanceState == null) {
-//            supportFragmentManager.beginTransaction()
-//                .replace(R.id.container, MainFragment.newInstance())
-//                .commitNow()
-//        }
+        FetchDemoData(this, vertical_rv).execute()
+    }
+
+    private class FetchDemoData
+    internal constructor(mContext: MainActivity, verticalRecyclerView: RecyclerView) :
+            AsyncTask<Void, Void, Void>() {
+
+        private val activityReference: WeakReference<MainActivity> = WeakReference(mContext)
+
+        var verticalRv = verticalRecyclerView
+        //step 2
+        val films = Films().objects
+
+        override fun doInBackground(vararg params: Void): Void? {
+            for (film in films) {
+                    VerticalRVAdapter(
+                            film.category,
+                            film.films
+                    )
+            }
+            return null
+        }
     }
 }
